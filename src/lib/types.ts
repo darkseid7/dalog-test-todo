@@ -1,5 +1,5 @@
 export interface Todo {
   id: number;
   title: string;
-  completed: boolean;
+  status: "Todo" | "Doing" | "Done";
 }
