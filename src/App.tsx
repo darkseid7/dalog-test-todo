@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Toaster } from "@/components/ui/toaster";
 
 import { CurrentDate } from "@/components/todo/current-date";
 import { TodoList } from "@/components/todo/todo-list";
@@ -29,6 +30,7 @@ function App() {
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
     >
+      <Toaster />
       <Card className="w-[600px]">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Todo List</CardTitle>

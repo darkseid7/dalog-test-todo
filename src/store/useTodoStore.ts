@@ -8,7 +8,7 @@ export interface Todo {
 
 interface TodoState {
   todos: Todo[];
-  addTodo: (title: string) => void;
+  addTodo: (title: string) => Promise<{ success: boolean }>;
   fetchTodos: () => Promise<void>;
   removeTodo: (id: number) => void;
   toggleTodo: (id: number, newStatus: "Todo" | "Doing" | "Done") => void;
@@ -16,7 +16,6 @@ interface TodoState {
 
 export const useTodoStore = create<TodoState>((set) => ({
   todos: [],
-
   fetchTodos: async () => {
     try {
       const response = await fetch("http://localhost:3001/todos");
@@ -42,8 +41,10 @@ export const useTodoStore = create<TodoState>((set) => ({
       set((state) => ({
         todos: [...state.todos, newTodo],
       }));
+      return { success: true };
     } catch (error) {
       console.error("Error adding todo:", error);
+      return { success: false };
     }
   },
 
