@@ -38,7 +38,10 @@ export function AddTodoForm() {
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
       />
-      <Button className="bg-success-500" onClick={handleSubmit}>
+      <Button
+        className="bg-success-500 hover:bg-success-600"
+        onClick={handleSubmit}
+      >
         <Plus strokeWidth={3} />
       </Button>
     </div>

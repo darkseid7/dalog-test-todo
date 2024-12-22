@@ -28,11 +28,15 @@ export function DoneConfirmationDialog({
             Are you sure this task is already completed?
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex justify-end gap-2">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="default" onClick={onConfirm}>
+          <Button
+            variant="default"
+            onClick={onConfirm}
+            className="bg-success-500 hover:bg-success-600"
+          >
             Yes, I'm sure
           </Button>
         </DialogFooter>

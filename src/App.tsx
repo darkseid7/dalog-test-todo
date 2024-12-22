@@ -26,14 +26,14 @@ function App() {
 
   return (
     <motion.div
-      className="flex items-center justify-center min-h-screen"
+      className="flex items-center justify-center min-h-screen m-4"
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
     >
       <Toaster />
       <Card className="w-[600px]">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Todo APP</CardTitle>
+          <CardTitle className="text-center text-4xl">TODO APP</CardTitle>
           <CardDescription>
             <CurrentDate />
           </CardDescription>
@@ -42,9 +42,7 @@ function App() {
           <AddTodoForm />
           <TodoList />
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
+        <CardFooter></CardFooter>
       </Card>
     </motion.div>
   );

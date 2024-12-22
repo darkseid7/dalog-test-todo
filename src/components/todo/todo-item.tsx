@@ -1,4 +1,3 @@
-// todo-item.tsx
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useTodoStore, Todo } from "@/store/useTodoStore";
@@ -36,15 +35,13 @@ export function TodoItem({ todo }: TodoItemProps) {
 
   return (
     <motion.div
-      className="flex flex-col gap-2 mb-2"
+      className="flex flex-col gap-2 mb-4 text-lg"
       exit={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
     >
       <span
-        style={{
-          textDecoration: todo.status === "Done" ? "line-through" : "none",
-        }}
+        className={todo.status === "Done" ? "line-through text-gray-500" : ""}
       >
         {todo.title}
       </span>
@@ -79,7 +76,10 @@ export function TodoItem({ todo }: TodoItemProps) {
           </ToggleGroupItem>
         </ToggleGroup>
 
-        <Button className="bg-red-500" onClick={() => removeTodo(todo.id)}>
+        <Button
+          className="bg-red-500 hover:bg-red-600"
+          onClick={() => removeTodo(todo.id)}
+        >
           <Trash2 strokeWidth={3} />
         </Button>
       </div>
