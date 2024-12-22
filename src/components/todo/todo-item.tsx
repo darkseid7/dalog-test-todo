@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { useTodoStore, Todo } from "@/store/useTodoStore";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+// todo-item.tsx
+import { useState } from "react";
 import { motion } from "motion/react";
-import { useToast } from "@/hooks/use-toast";
+import { useTodoStore, Todo } from "@/store/useTodoStore";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Trash2 } from "lucide-react";
+import { DoneConfirmationDialog } from "./done-confirmation-modal";
 
 interface TodoItemProps {
   todo: Todo;
@@ -13,8 +15,23 @@ export function TodoItem({ todo }: TodoItemProps) {
   const removeTodo = useTodoStore((state) => state.removeTodo);
   const toggleTodo = useTodoStore((state) => state.toggleTodo);
 
-  const handleToggle = (newStatus: "Todo" | "Doing" | "Done") => {
-    toggleTodo(todo.id, newStatus);
+  const [isDoneDialogOpen, setIsDoneDialogOpen] = useState(false);
+
+  const handleConfirmDone = () => {
+    toggleTodo(todo.id, "Done");
+    setIsDoneDialogOpen(false);
+  };
+
+  const handleStatusClick = (newStatus: "Todo" | "Doing") => {
+    if (todo.status !== newStatus) {
+      toggleTodo(todo.id, newStatus);
+    }
+  };
+
+  const handleDoneClick = () => {
+    if (todo.status !== "Done") {
+      setIsDoneDialogOpen(true);
+    }
   };
 
   return (
@@ -31,43 +48,47 @@ export function TodoItem({ todo }: TodoItemProps) {
       >
         {todo.title}
       </span>
+
       <div className="flex gap-1">
-        <ToggleGroup
-          type="single"
-          variant="outline"
-          value={todo.status}
-          onValueChange={(value) => {
-            if (value === "Todo" || value === "Doing" || value === "Done") {
-              handleToggle(value);
-            }
-          }}
-        >
+        <ToggleGroup type="single" variant="outline" value={todo.status}>
           <ToggleGroupItem
             value="Todo"
             aria-label="Toggle Todo"
-            className={"data-[state=on]:bg-gray-500"}
+            onClick={() => handleStatusClick("Todo")}
+            className="data-[state=on]:bg-gray-400 px-2"
           >
             Todo
           </ToggleGroupItem>
+
           <ToggleGroupItem
             value="Doing"
             aria-label="Toggle Doing"
-            className="data-[state=on]:bg-info-700"
+            onClick={() => handleStatusClick("Doing")}
+            className="data-[state=on]:bg-blue-400 px-2"
           >
             Doing
           </ToggleGroupItem>
+
           <ToggleGroupItem
             value="Done"
             aria-label="Toggle Done"
-            className="data-[state=on]:bg-success-500"
+            onClick={handleDoneClick}
+            className="data-[state=on]:bg-green-500 px-2"
           >
             Done
           </ToggleGroupItem>
         </ToggleGroup>
-        <Button className="bg-error-500" onClick={() => removeTodo(todo.id)}>
+
+        <Button className="bg-red-500" onClick={() => removeTodo(todo.id)}>
           <Trash2 strokeWidth={3} />
         </Button>
       </div>
+
+      <DoneConfirmationDialog
+        open={isDoneDialogOpen}
+        onClose={() => setIsDoneDialogOpen(false)}
+        onConfirm={handleConfirmDone}
+      />
     </motion.div>
   );
 }

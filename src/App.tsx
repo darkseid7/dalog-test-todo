@@ -33,7 +33,7 @@ function App() {
       <Toaster />
       <Card className="w-[600px]">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Todo List</CardTitle>
+          <CardTitle className="text-center text-2xl">Todo APP</CardTitle>
           <CardDescription>
             <CurrentDate />
           </CardDescription>
