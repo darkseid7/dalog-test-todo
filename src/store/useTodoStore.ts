@@ -9,28 +9,71 @@ export interface Todo {
 interface TodoState {
   todos: Todo[];
   addTodo: (title: string) => void;
+  fetchTodos: () => Promise<void>;
   removeTodo: (id: number) => void;
   toggleTodo: (id: number, newStatus: "Todo" | "Doing" | "Done") => void;
 }
 
 export const useTodoStore = create<TodoState>((set) => ({
-  todos: [
-    { id: 1, title: "Learn React", status: "Todo" },
-    { id: 2, title: "Learn Next.js", status: "Doing" },
-    { id: 3, title: "Learn TypeScript", status: "Done" },
-  ],
-  addTodo: (title) =>
-    set((state) => ({
-      todos: [...state.todos, { id: Date.now(), title, status: "Todo" }],
-    })),
-  removeTodo: (id) =>
-    set((state) => ({
-      todos: state.todos.filter((todo) => todo.id !== id),
-    })),
-  toggleTodo: (id, newStatus) =>
-    set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, status: newStatus } : todo
-      ),
-    })),
+  todos: [],
+
+  fetchTodos: async () => {
+    try {
+      const response = await fetch("http://localhost:3001/todos");
+      const data = await response.json();
+      set({ todos: data });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  addTodo: async (title: string) => {
+    try {
+      const response = await fetch("http://localhost:3001/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          status: "Todo",
+        }),
+      });
+      const newTodo = await response.json();
+
+      set((state) => ({
+        todos: [...state.todos, newTodo],
+      }));
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+  },
+
+  removeTodo: async (id: number) => {
+    try {
+      await fetch(`http://localhost:3001/todos/${id}`, {
+        method: "DELETE",
+      });
+      set((state) => ({
+        todos: state.todos.filter((todo) => todo.id !== id),
+      }));
+    } catch (error) {
+      console.error("Error removing todo:", error);
+    }
+  },
+
+  toggleTodo: async (id, newStatus) => {
+    try {
+      const response = await fetch(`http://localhost:3001/todos/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const updatedTodo = await response.json();
+
+      set((state) => ({
+        todos: state.todos.map((todo) => (todo.id === id ? updatedTodo : todo)),
+      }));
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    }
+  },
 }));

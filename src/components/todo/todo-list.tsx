@@ -1,5 +1,6 @@
 import { useTodoStore } from "@/store/useTodoStore";
 import { TodoItem } from "./todo-item";
+import { AnimatePresence } from "motion/react";
 
 export function TodoList() {
   const todos = useTodoStore((state) => state.todos);
@@ -9,10 +10,10 @@ export function TodoList() {
   }
 
   return (
-    <div>
+    <AnimatePresence>
       {todos.map((todo) => (
         <TodoItem key={todo.id} todo={todo} />
       ))}
-    </div>
+    </AnimatePresence>
   );
 }

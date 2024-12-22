@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./App.css";
 import {
   Card,
@@ -12,9 +13,22 @@ import { CurrentDate } from "@/components/todo/current-date";
 import { TodoList } from "@/components/todo/todo-list";
 import { AddTodoForm } from "@/components/todo/add-todo-form";
 
+import { useTodoStore } from "./store/useTodoStore";
+import { motion } from "motion/react";
+
 function App() {
+  const fetchTodos = useTodoStore((state) => state.fetchTodos);
+
+  useEffect(() => {
+    fetchTodos();
+  }, [fetchTodos]);
+
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <motion.div
+      className="flex items-center justify-center min-h-screen"
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+    >
       <Card className="w-[600px]">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Todo List</CardTitle>
@@ -30,7 +44,7 @@ function App() {
           <p>Card Footer</p>
         </CardFooter>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 

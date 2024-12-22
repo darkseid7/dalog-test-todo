@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useTodoStore, Todo } from "@/store/useTodoStore";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { motion } from "motion/react";
 
 interface TodoItemProps {
   todo: Todo;
@@ -15,7 +16,12 @@ export function TodoItem({ todo }: TodoItemProps) {
   };
 
   return (
-    <div className="flex items-center gap-2 mb-2">
+    <motion.div
+      className="flex items-center gap-2 mb-2"
+      exit={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+    >
       <span
         style={{
           textDecoration: todo.status === "Done" ? "line-through" : "none",
@@ -47,6 +53,6 @@ export function TodoItem({ todo }: TodoItemProps) {
       <Button className="bg-[#189AB4]" onClick={() => removeTodo(todo.id)}>
         Remove
       </Button>
-    </div>
+    </motion.div>
   );
 }
