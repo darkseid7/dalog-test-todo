@@ -1,50 +1,60 @@
-# React + TypeScript + Vite
+# Dalog TODO APP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Developed by Sergio Andres Oquendo
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This Todo Application implements basic CRUD functionality on “todos”:
 
-## Expanding the ESLint configuration
+- Add new todos
+- Edit todo title
+- Remove todos
+- Mark them as Todo, Doing, or Done
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Architecture and Technology Choices
 
-- Configure the top-level `parserOptions` property like this:
+- React 18
+- TypeScript
+- Vite
+- Zustand: Manage global state
+- JSON Server: Works as a fake REST API to manage todos
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### UI Components
+
+- Shadcn + Radix UI Components
+- Tailwind CSS
+- Motion: For transitions and AnimatePresence when adding/removing items
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/darkseid7/dalog-test-todo.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Go to the project directory
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+  cd dalog-test-todo
+```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Install dependencies
+
+```bash
+  npm install
+```
+
+## Start the APP and the Mock Server
+
+Start json-server
+
+```bash
+    npm run json-server
+```
+
+Start the development server (Vite)
+
+```bash
+  npm run dev
 ```
