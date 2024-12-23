@@ -54,7 +54,9 @@ export function TodoItem({ todo }: TodoItemProps) {
 
   return (
     <motion.div
-      className="flex flex-col gap-2 mb-4 text-lg"
+      className="flex flex-col gap-2 mb-4 text-lg
+      bg-neutral-50 p-4 rounded-lg shadow-md
+      "
       exit={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
