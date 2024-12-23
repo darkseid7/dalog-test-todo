@@ -12,10 +12,12 @@ interface TodoState {
   fetchTodos: () => Promise<void>;
   removeTodo: (id: number) => void;
   toggleTodo: (id: number, newStatus: "Todo" | "Doing" | "Done") => void;
+  editTodo: (id: number, newTitle: string) => Promise<void>;
 }
 
 export const useTodoStore = create<TodoState>((set) => ({
   todos: [],
+
   fetchTodos: async () => {
     try {
       const response = await fetch("http://localhost:3001/todos");
@@ -75,6 +77,23 @@ export const useTodoStore = create<TodoState>((set) => ({
       }));
     } catch (error) {
       console.error("Error updating todo:", error);
+    }
+  },
+
+  editTodo: async (id, newTitle) => {
+    try {
+      const response = await fetch(`http://localhost:3001/todos/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      const updatedTodo = await response.json();
+
+      set((state) => ({
+        todos: state.todos.map((todo) => (todo.id === id ? updatedTodo : todo)),
+      }));
+    } catch (error) {
+      console.error("Error editing todo:", error);
     }
   },
 }));

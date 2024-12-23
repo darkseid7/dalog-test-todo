@@ -52,7 +52,7 @@ export function TodoList() {
             initial={{ opacity: 0 }}
             exit={{ opacity: 0 }}
           >
-            No todos
+            Nothing to do
           </motion.h3>
         </AnimatePresence>
       )}

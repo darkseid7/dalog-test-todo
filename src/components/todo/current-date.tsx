@@ -9,7 +9,7 @@ export function CurrentDate() {
   const year: number = today.getFullYear();
 
   return (
-    <div className="text-start text-xl">
+    <div className="text-start text-lg">
       <div>{dayName}</div>
       <div>{`${month}-${day}-${year}`}</div>
     </div>
